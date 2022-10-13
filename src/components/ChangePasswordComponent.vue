@@ -16,5 +16,5 @@ p.flex-center
         outline, rounded,
         type="submit"
       )
-    p {{email}}
+    p {{email}} a
 </template>
