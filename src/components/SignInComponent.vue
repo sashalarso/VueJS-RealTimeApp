@@ -40,4 +40,10 @@ q-form.row.justify-center(@submit.prevent="handleSignIn")
         outline, rounded,
         type="submit"
         )
+q-btn.p-ma-md.justify-center(
+  label="Change Password",
+  color="primary",
+  outline, rounded,
+  type="submit"
+)
 </template>

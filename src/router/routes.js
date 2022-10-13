@@ -26,6 +26,12 @@ const routes = [
         component: () => import("src/pages/EmailConfirmationPage.vue"),
       },
       {
+        name: "changePasswordPage",
+        path: "changePasswordPage",
+        props: true,
+        component: () => import("src/pages/ChangePasswordPage.vue"),
+      },
+      {
         name: "errorPageNotFound",
         path: ":catchAll(.*)*",
         component: () => import("src/pages/ErrorPageNotFound.vue"),
