@@ -1,5 +1,5 @@
 <script setup>
-import { defineComponent, toRef } from "vue";
+import { defineComponent, ref, render, toRef } from "vue";
 import { state } from "../stores/countersState";
 import useAuthUser from "src/composables/UseAuthUser";
 import useAPI from "src/composables/UseApi";
@@ -20,11 +20,22 @@ const props = defineProps({
 const { syncFromServer, syncToServer } = useAPI(props.id);
 
 const counterValue = toRef(state, "counter" + props.id);
+const share = ref(false);
 </script>
 
 <template lang="pug">
 .column.justify-evenly
-  p.q-ma-md.text-h5.text-purple-9.self-center Counter {{ id }}
+  .row.justify-center.items-end
+    p.q-ma-md.text-h5.self-center Counter {{ id }}
+    q-btn.q-ma-xs(
+          rounded,
+          color="red-7",
+          no-caps,
+          size="0.9em",
+          icon="delete",
+          label="Delete counter",
+          @click=""
+          )
   .row.justify-center.items-end
     q-btn.q-ma-md.col-1(rounded, color="cyan", @click="state.incr(id)")
       q-tooltip(anchor="top left").bg-teal increment
@@ -68,4 +79,24 @@ const counterValue = toRef(state, "counter" + props.id);
         @click = "syncFromServer"
         )
         q-tooltip(anchor="bottom right").bg-teal update local values from server
+    .column.col-5
+      q-btn.q-ma-xs.bg-teal-13(rounded, color= "green",@click="state.reset(id)",data-cy="btn-reset") Reset
+        q-tooltip( data-cy="lt-rst" anchor="top right").bg-teal reset value
+      q-btn.q-ma-xs.bg-teal-13(rounded,icon="save", color= "deep-orange-6", @click="state.save(id)", data-cy="btn-save",no-caps) Save Store as Local
+        q-tooltip(anchor="top right").bg-teal save value
+      q-btn.q-ma-xs.bg-teal-13(rounded,icon="upload", color= "deep-orange-6",@click="state.sync(id)",data-cy="btn-sync",no-caps) Sync Store from Local
+        q-tooltip(anchor="top right").bg-teal recup value
+      q-btn.q-ma-xs.bg-teal-13(rounded,icon="share", color= "deep-orange-6",@click="share= true",data-cy="btn-sync",no-caps) Share counter
+      q-dialog(v-model="share")
+        q-card
+          q-card-section Enter the id of the user you want to share with
+          q-card-section
+            q-input(dense,v-model="user_id",@keyup.enter="share=false")
+          q-card-actions(align="right")
+            q-btn(flat,label="cancel",v-close-popup)
+            q-btn(flat,label="share with user",v-close-popup,@click="")
+
+
+
+
 </template>

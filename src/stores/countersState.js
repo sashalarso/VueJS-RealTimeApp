@@ -1,5 +1,5 @@
-import { reactive } from "vue"
-
+import { h, reactive } from "vue";
+import { LocalStorage } from "quasar";
 export const state = reactive({
   counterA: 0,
   counterB: 0,
@@ -17,11 +17,11 @@ export const state = reactive({
 
   setVal(id, value) {
     if (id === "A") {
-      this.counterA = value
-      return this.counterA
+      this.counterA = value;
+      return this.counterA;
     } else if (id === "B") {
-      this.counterB = value
-      return this.counterB
+      this.counterB = value;
+      return this.counterB;
     } else {
       console.log("Attempting to set a non-existing counter");
       return 0;
@@ -43,4 +43,27 @@ export const state = reactive({
       this.counterB--;
     } else console.log("Attempting to decrement a non-existing counter");
   },
-})
+  reset(id) {
+    if (id === "A") {
+      this.counterA = 0;
+    } else if (id === "B") {
+      this.counterB = 0;
+    }
+  },
+  save(id) {
+    if (id === "A") {
+      LocalStorage.set("A_value", this.counterA);
+      console.log(LocalStorage.getItem("A_value"));
+    } else if (id === "B") {
+      LocalStorage.set("B_value", this.counterB);
+      console.log(LocalStorage.getItem("B_value"));
+    }
+  },
+  sync(id) {
+    if (id === "A") {
+      this.counterA = parseInt(LocalStorage.getItem("A_value"));
+    } else if (id === "B") {
+      this.counterB = parseInt(LocalStorage.getItem("B_value"));
+    }
+  },
+});

@@ -20,7 +20,7 @@ export default function useAPI(letter) {
     //let counterValue = null;
     const { data, error } = await supabase
       .from("counters")
-      .select('counter')
+      .select("counter")
       .match({ letter: letter, user: user.value.id });
     if (error) throw error;
     if (data && data.length === 1) {
@@ -31,5 +31,5 @@ export default function useAPI(letter) {
   return {
     syncFromServer,
     syncToServer,
-  }
+  };
 }
