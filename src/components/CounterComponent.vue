@@ -3,7 +3,7 @@ import { defineComponent, ref, render, toRef } from "vue";
 import { state } from "../stores/countersState";
 import useAuthUser from "src/composables/UseAuthUser";
 import useAPI from "src/composables/UseApi";
-
+import { counters } from "../pages/IndexPage.vue";
 defineComponent({ name: "CounterComponent" });
 
 const { isSignedIn } = useAuthUser();
@@ -12,7 +12,7 @@ const props = defineProps({
   id: {
     required: true,
     validator(value) {
-      return ["A", "B"].includes(value);
+      return counters.includes(value);
     },
   },
 });

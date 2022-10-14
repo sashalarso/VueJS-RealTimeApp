@@ -1,9 +1,18 @@
 <script setup>
 import { defineComponent, computed } from "vue";
 import { state } from "../stores/countersState";
+import { counters } from "../pages/IndexPage.vue";
 
-defineComponent({ name: "CountersTotal" })
-let total = computed(() => state.getVal("A") + state.getVal("B"));
+defineComponent({ name: "CountersTotal" });
+let a = 0;
+function getotal() {
+  a = 0;
+  counters.forEach((counter) => (a += state.getVal(counter)));
+
+  return a;
+}
+let total = computed(() => getotal());
+//state.getVal("A") + state.getVal("B") + state.getVal("C")
 </script>
 
 <template lang="pug">

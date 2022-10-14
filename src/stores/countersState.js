@@ -1,22 +1,29 @@
 import { h, reactive } from "vue";
 import { LocalStorage } from "quasar";
+import { counters } from "../pages/IndexPage.vue";
+
 export const state = reactive({
   counterA: 0,
   counterB: 0,
+  counterC: 0,
 
   getVal(id) {
     if (id === "A") {
       return this.counterA;
     } else if (id === "B") {
       return this.counterB;
+    } else if (id === "C") {
+      return this.counterC;
     } else {
       console.log("Attempting to get a non-existing counter");
+      return 0;
+
       return 0;
     }
   },
 
   setVal(id, value) {
-    if (id === "A") {
+    if (id === "C") {
       this.counterA = value;
       return this.counterA;
     } else if (id === "B") {
@@ -33,6 +40,8 @@ export const state = reactive({
       this.counterA++;
     } else if (id === "B") {
       this.counterB++;
+    } else if (id === "C") {
+      this.counterC++;
     } else console.log("Attempting to increment a non-existing counter");
   },
 

@@ -11,7 +11,15 @@ defineComponent({
 const add = ref(false);
 const count_name = ref("");
 
+function addCounter() {
+  counters.push(count_name.value);
+  console.log(counters);
+}
 const { user } = useAuthUser();
+</script>
+
+<script>
+export var counters = [];
 </script>
 
 <template lang="pug">
@@ -21,13 +29,13 @@ q-page.column
   p(v-if="user").q-ma-lg
     .row.justify-center.items-start.q-my-xl
       span.row.flex.flex-center
-        CounterComponent(id="A")
+
       span.row.justify-center.items-start
         span.text-h4.text-purple-9.q-my-md +
-        CounterComponent(id="B")
+
       span.row.justify-center.items-start
         span.text-h4.text-purple-9.q-my-md   =
-        CountersTotal
+
 
     q-btn.q-ma-md(@click="add = true",icon="add",no-caps,color="deep-orange-6",rounded) Create a new Counter
     q-btn.q-ma-md(@click="",color="green",icon="refresh",no-caps,text-color="white") Pulled Shared Counters
@@ -37,9 +45,12 @@ q-page.column
         q-card-section
           q-input(dense,v-model="count_name",@keyup.enter="add=false")
         q-card-actions(align="right")
-          q-btn(flat,label="cancel",v-close-popup,@click="")
-          q-btn(flat,label="add counter",v-close-popup)
-
+          q-btn(flat,label="cancel",v-close-popup)
+          q-btn(flat,label="add counter",v-close-popup,@click="addCounter()")
+  p(v-for="counter in counters")
+    CounterComponent(v-bind:id="counter")
+  p(v-if="counters.length >0")
+    CountersTotal
 
 
 </template>
