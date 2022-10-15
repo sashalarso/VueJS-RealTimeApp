@@ -6,6 +6,57 @@ export const state = reactive({
   counterA: 0,
   counterB: 0,
   counterC: 0,
+  counterD: 0,
+  counterE: 0,
+  counterF: 0,
+  counterG: 0,
+  counterH: 0,
+  counterI: 0,
+  counterJ: 0,
+  counterK: 0,
+  counterL: 0,
+  counterM: 0,
+  counterN: 0,
+  counterO: 0,
+  counterP: 0,
+  counterQ: 0,
+  counterR: 0,
+  counterS: 0,
+  counterT: 0,
+  counterU: 0,
+  counterV: 0,
+  counterW: 0,
+  counterX: 0,
+  counterY: 0,
+  counterZ: 0,
+  alphabet: [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+  ],
 
   getVal(id) {
     if (id === "A") {
@@ -16,8 +67,6 @@ export const state = reactive({
       return this.counterC;
     } else {
       console.log("Attempting to get a non-existing counter");
-      return 0;
-
       return 0;
     }
   },
@@ -36,28 +85,27 @@ export const state = reactive({
   },
 
   incr(id) {
-    if (id === "A") {
-      this.counterA++;
-    } else if (id === "B") {
-      this.counterB++;
-    } else if (id === "C") {
-      this.counterC++;
-    } else console.log("Attempting to increment a non-existing counter");
+    this.alphabet.forEach((i) => {
+      if (id == i) {
+        eval("this.counter" + i + "++;");
+      }
+    });
   },
 
   decr(id) {
-    if (id === "A") {
-      this.counterA--;
-    } else if (id === "B") {
-      this.counterB--;
-    } else console.log("Attempting to decrement a non-existing counter");
+    this.alphabet.forEach((i) => {
+      if (id == i) {
+        eval("this.counter" + i + "--;");
+      }
+    });
   },
+
   reset(id) {
-    if (id === "A") {
-      this.counterA = 0;
-    } else if (id === "B") {
-      this.counterB = 0;
-    }
+    this.alphabet.forEach((i) => {
+      if (id == i) {
+        eval("this.counter" + i + "=0;");
+      }
+    });
   },
   save(id) {
     if (id === "A") {

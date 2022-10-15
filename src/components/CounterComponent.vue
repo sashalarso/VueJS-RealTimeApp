@@ -20,8 +20,8 @@ const props = defineProps({
 
 const { syncFromServer, syncToServer, deleteFromServer, shareWithUser } =
   useAPI(props.id);
-
 const counterValue = toRef(state, "counter" + props.id);
+
 const share = ref(false);
 const user_id = ref("");
 </script>
@@ -37,7 +37,7 @@ const user_id = ref("");
           size="0.9em",
           icon="delete",
           label="Delete counter",
-          @click="deletecounter(props.id),deleteFromServer"
+          @click="deletecounter(props.id),deleteFromServer(props.id)"
           )
   .row.justify-center.items-end
     q-btn.q-ma-md.col-1(rounded, color="cyan", @click="state.incr(id)")

@@ -16,14 +16,13 @@ export default function useAPI(letter) {
     if (error) throw error;
   };
 
-  const deleteFromServer = async () => {
-    const counterValue = state.getVal(letter);
+  async function deleteFromServer(letter) {
     const { data, error } = await supabase
       .from("counters")
       .delete()
       .match({ letter: letter, user: user.value.id });
     if (error) throw error;
-  };
+  }
 
   async function addOnServer(letter) {
     const { data, error } = await supabase
@@ -61,12 +60,12 @@ export default function useAPI(letter) {
       .from("counters")
       .select()
       .match({ user: user.value.id });
-    console.log(data[0].counter);
 
     if (error) throw error;
     if (data && data.length === 1) {
       state.setVal(letter, data[0].counter);
     }
+    return data;
   };
 
   return {

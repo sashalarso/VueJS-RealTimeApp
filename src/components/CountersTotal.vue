@@ -1,13 +1,14 @@
 <script setup>
 import { defineComponent, computed } from "vue";
 import { state } from "../stores/countersState";
-import { counters } from "../pages/IndexPage.vue";
+import { counters, letters } from "../pages/IndexPage.vue";
 
 defineComponent({ name: "CountersTotal" });
 let a = 0;
 function getotal() {
   a = 0;
   counters.forEach((counter) => (a += state.getVal(counter)));
+  letters.forEach((counter) => (a += state.getVal(counter)));
 
   return a;
 }

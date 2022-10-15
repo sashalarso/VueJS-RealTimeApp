@@ -11,6 +11,10 @@ defineComponent({
 
 const add = ref(false);
 const count_name = ref("");
+const share = ref(true);
+
+let countersShared = [];
+let letters = [];
 
 const { pullShared, addOnServer } = useApi();
 
@@ -18,12 +22,21 @@ function addCounter() {
   counters.push(count_name.value);
   console.log(counters);
 }
+function pullSharedOn() {
+  pullShared().then((data) => (countersShared = data));
+
+  countersShared.forEach((counter) => letters.push(counter.letter));
+
+  share.value = false;
+  console.log(letters);
+}
 
 const { user } = useAuthUser();
 </script>
 
 <script>
 export var counters = [];
+export var letters = [];
 
 export function deletecounter(id) {
   const index = counters.indexOf(id);
@@ -42,7 +55,8 @@ q-page.column
 
     span.row.justify-center.items-start
       q-btn.q-ma-md(@click="add = true",icon="add",no-caps,color="deep-orange-6",rounded) Create a new Counter
-      q-btn.q-ma-md(@click="pullShared",color="green",icon="refresh",no-caps,text-color="white") Pulled Shared Counters
+      q-btn(v-if="share").q-ma-md(@click="pullSharedOn()",color="green",icon="refresh",no-caps,rounded,text-color="white") Pull Shared Counters
+      q-btn(v-if="!share").q-ma-md(@click="share=true",color="green",icon="remove",no-caps,rounded,text-color="white") Remove Shared Counters
     q-dialog(v-model="add")
       q-card
         q-card-section Enter the counter's name
@@ -53,11 +67,18 @@ q-page.column
           q-btn(flat,label="add counter",v-close-popup,@click="addCounter(),addOnServer(count_name)")
     p(v-for="counter in counters")
       CounterComponent(v-bind:id="counter")
+
       span.row.justify-center.items-start
         span.text-h4.text-purple-9.q-my-md +
+    p(v-if="!share")
+      p(v-for="counter in letters")
+        CounterComponent(v-bind:id="counter")
+
+        span.row.justify-center.items-start
+          span.text-h4.text-purple-9.q-my-md +
     span(v-if="counters.length >0").row.justify-center.items-start
       span.text-h4.text-purple-9.q-my-md   =
-    p(v-if="counters.length >0")
+    p(v-if="counters.length || letters.length >0")
       CountersTotal
 
 
