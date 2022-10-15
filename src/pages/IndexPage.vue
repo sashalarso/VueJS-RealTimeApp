@@ -26,9 +26,8 @@ function pullSharedOn() {
   pullShared().then((data) => (countersShared = data));
 
   countersShared.forEach((counter) => letters.push(counter.letter));
-
-  share.value = false;
   console.log(letters);
+  share.value = false;
 }
 
 const { user } = useAuthUser();

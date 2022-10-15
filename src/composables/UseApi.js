@@ -12,7 +12,7 @@ export default function useAPI(letter) {
     const { data, error } = await supabase
       .from("counters")
       .update({ counter: counterValue })
-      .match({ letter: letter, user: user.value.id });
+      .match({ letter: letter });
     if (error) throw error;
   };
 
@@ -20,7 +20,7 @@ export default function useAPI(letter) {
     const { data, error } = await supabase
       .from("counters")
       .delete()
-      .match({ letter: letter, user: user.value.id });
+      .match({ letter: letter });
     if (error) throw error;
   }
 
@@ -38,17 +38,17 @@ export default function useAPI(letter) {
     const { data, error } = await supabase
       .from("counters")
       .select("counter")
-      .match({ letter: letter, user: user.value.id });
+      .match({ letter: letter });
     if (error) throw error;
     if (data && data.length === 1) {
       state.setVal(letter, data[0].counter);
     }
   };
 
-  async function shareWithUser(user_id) {
+  async function shareWithUser(user_id, value) {
     const { data, error } = await supabase
       .from("counters")
-      .insert({ counter: 0, letter: letter, user: user_id });
+      .insert({ counter: value, letter: letter, user: user_id });
 
     if (error) throw error;
     if (data && data.length === 1) {

@@ -4,16 +4,44 @@ import { state } from "../stores/countersState";
 import { counters, letters } from "../pages/IndexPage.vue";
 
 defineComponent({ name: "CountersTotal" });
-let a = 0;
-function getotal() {
-  a = 0;
-  counters.forEach((counter) => (a += state.getVal(counter)));
-  letters.forEach((counter) => (a += state.getVal(counter)));
+let alphabet = [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+];
 
-  return a;
+let sum = 0;
+function somme(letter) {
+  alphabet.forEach((letter) => {
+    sum += state.getVal(letter);
+  });
 }
-let total = computed(() => getotal());
-//state.getVal("A") + state.getVal("B") + state.getVal("C")
+let total = computed(
+  () => state.getVal("A") + state.getVal("B") + state.getVal("C")
+);
 </script>
 
 <template lang="pug">

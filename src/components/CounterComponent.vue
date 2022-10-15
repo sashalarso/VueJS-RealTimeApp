@@ -3,7 +3,7 @@ import { defineComponent, ref, render, toRef } from "vue";
 import { state } from "../stores/countersState";
 import useAuthUser from "src/composables/UseAuthUser";
 import useAPI from "src/composables/UseApi";
-import { counters } from "../pages/IndexPage.vue";
+import { counters, letters } from "../pages/IndexPage.vue";
 import { deletecounter } from "../pages/IndexPage.vue";
 defineComponent({ name: "CounterComponent" });
 
@@ -13,7 +13,7 @@ const props = defineProps({
   id: {
     required: true,
     validator(value) {
-      return counters.includes(value);
+      return counters.includes(value) || letters.includes(value);
     },
   },
 });
@@ -23,6 +23,7 @@ const { syncFromServer, syncToServer, deleteFromServer, shareWithUser } =
 const counterValue = toRef(state, "counter" + props.id);
 
 const share = ref(false);
+const delet = ref(false);
 const user_id = ref("");
 </script>
 
@@ -39,7 +40,14 @@ const user_id = ref("");
           label="Delete counter",
           @click="deletecounter(props.id),deleteFromServer(props.id)"
           )
+      q-dialog(v-model="delet")
+        q-card
+          q-card-section The counter has been deleted
+          q-card-actions(align="right")
+            q-btn(flat,label="ok",v-close-popup)
+
   .row.justify-center.items-end
+
     q-btn.q-ma-md.col-1(rounded, color="cyan", @click="state.incr(id)")
       q-tooltip(anchor="top left").bg-teal increment
       q-icon(name="arrow_drop_up", size="md")
@@ -97,7 +105,7 @@ const user_id = ref("");
             q-input(dense,v-model="user_id",@keyup.enter="share=false")
           q-card-actions(align="right")
             q-btn(flat,label="cancel",v-close-popup)
-            q-btn(flat,label="share with user",v-close-popup,@click="shareWithUser(user_id)")
+            q-btn(flat,label="share with user",v-close-popup,@click="shareWithUser(user_id,counterValue)")
 
 
 
