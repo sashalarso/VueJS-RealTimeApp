@@ -1,7 +1,11 @@
 <script setup>
-import { defineComponent, defineProps } from "vue";
+import { defineComponent, defineProps, ref } from "vue";
+import useAuthUser from "src/composables/UseAuthUser";
 
 defineComponent({ name: "ChangePasswordComponent" });
+const email = ref("");
+const new_password = ref("");
+const { changePassword } = useAuthUser();
 </script>
 
 <template lang="pug">
@@ -9,12 +13,13 @@ h6.flex.flex-center
   span.text-deep-purple-7.q-mx-sm Change password
 p.flex-center
     q-input(label="email",type="email",v-model="email")
-    q-input(  label="Password",v-model="new_password")
+
     q-btn.full-width(
         label="Change Password",
         color="primary",
         outline, rounded,
-        type="submit"
+        type="submit",
+        @click="changePassword({email})"
       )
-    p {{email}} a
+    p {{email}}
 </template>

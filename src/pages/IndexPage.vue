@@ -3,6 +3,7 @@ import { defineComponent, h, ref } from "vue";
 import CounterComponent from "../components/CounterComponent.vue";
 import CountersTotal from "../components/CountersTotal.vue";
 import useAuthUser from "src/composables/UseAuthUser";
+import useApi from "src/composables/UseApi";
 
 defineComponent({
   name: "IndexPage",
@@ -11,34 +12,37 @@ defineComponent({
 const add = ref(false);
 const count_name = ref("");
 
+const { pullShared, addOnServer } = useApi();
+
 function addCounter() {
   counters.push(count_name.value);
   console.log(counters);
 }
+
 const { user } = useAuthUser();
 </script>
 
 <script>
 export var counters = [];
+
+export function deletecounter(id) {
+  const index = counters.indexOf(id);
+  counters.splice(index, 1);
+  console.log(counters);
+}
 </script>
 
 <template lang="pug">
 q-page.column
   p(v-if="user").q-ma-lg.text-h6.text-purple-9.flex.flex-center Hello {{ user.user_metadata.name }}
   p(v-if="!user").q-ma-lg.text-h6.text-purple-9.flex.flex-center You are not logged in !
-  p(v-if="user").q-ma-lg
-    .row.justify-center.items-start.q-my-xl
-      span.row.flex.flex-center
-
-      span.row.justify-center.items-start
-        span.text-h4.text-purple-9.q-my-md +
-
-      span.row.justify-center.items-start
-        span.text-h4.text-purple-9.q-my-md   =
+  p(v-if="user").q-ma-md.justify-center.flex-center
 
 
-    q-btn.q-ma-md(@click="add = true",icon="add",no-caps,color="deep-orange-6",rounded) Create a new Counter
-    q-btn.q-ma-md(@click="",color="green",icon="refresh",no-caps,text-color="white") Pulled Shared Counters
+
+    span.row.justify-center.items-start
+      q-btn.q-ma-md(@click="add = true",icon="add",no-caps,color="deep-orange-6",rounded) Create a new Counter
+      q-btn.q-ma-md(@click="pullShared",color="green",icon="refresh",no-caps,text-color="white") Pulled Shared Counters
     q-dialog(v-model="add")
       q-card
         q-card-section Enter the counter's name
@@ -46,11 +50,18 @@ q-page.column
           q-input(dense,v-model="count_name",@keyup.enter="add=false")
         q-card-actions(align="right")
           q-btn(flat,label="cancel",v-close-popup)
-          q-btn(flat,label="add counter",v-close-popup,@click="addCounter()")
-  p(v-for="counter in counters")
-    CounterComponent(v-bind:id="counter")
-  p(v-if="counters.length >0")
-    CountersTotal
+          q-btn(flat,label="add counter",v-close-popup,@click="addCounter(),addOnServer(count_name)")
+    p(v-for="counter in counters")
+      CounterComponent(v-bind:id="counter")
+      span.row.justify-center.items-start
+        span.text-h4.text-purple-9.q-my-md +
+    span(v-if="counters.length >0").row.justify-center.items-start
+      span.text-h4.text-purple-9.q-my-md   =
+    p(v-if="counters.length >0")
+      CountersTotal
+
+
+
 
 
 </template>

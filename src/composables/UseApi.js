@@ -16,6 +16,24 @@ export default function useAPI(letter) {
     if (error) throw error;
   };
 
+  const deleteFromServer = async () => {
+    const counterValue = state.getVal(letter);
+    const { data, error } = await supabase
+      .from("counters")
+      .delete()
+      .match({ letter: letter, user: user.value.id });
+    if (error) throw error;
+  };
+
+  async function addOnServer(letter) {
+    const { data, error } = await supabase
+      .from("counters")
+      .insert({ counter: 0, letter: letter, user: user.value.id })
+      .select();
+
+    if (error) throw error;
+  }
+
   const syncFromServer = async () => {
     //let counterValue = null;
     const { data, error } = await supabase
@@ -28,8 +46,35 @@ export default function useAPI(letter) {
     }
   };
 
+  async function shareWithUser(user_id) {
+    const { data, error } = await supabase
+      .from("counters")
+      .insert({ counter: 0, letter: letter, user: user_id });
+
+    if (error) throw error;
+    if (data && data.length === 1) {
+      state.setVal(letter, data[0].counter);
+    }
+  }
+  const pullShared = async () => {
+    const { data, error } = await supabase
+      .from("counters")
+      .select()
+      .match({ user: user.value.id });
+    console.log(data[0].counter);
+
+    if (error) throw error;
+    if (data && data.length === 1) {
+      state.setVal(letter, data[0].counter);
+    }
+  };
+
   return {
     syncFromServer,
     syncToServer,
+    deleteFromServer,
+    addOnServer,
+    shareWithUser,
+    pullShared,
   };
 }

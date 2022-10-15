@@ -23,7 +23,7 @@ export const state = reactive({
   },
 
   setVal(id, value) {
-    if (id === "C") {
+    if (id === "A") {
       this.counterA = value;
       return this.counterA;
     } else if (id === "B") {

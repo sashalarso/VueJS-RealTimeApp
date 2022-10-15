@@ -52,11 +52,18 @@ export default function useAuthUser() {
     return user;
   };
 
+  const changePassword = async ({ email }) => {
+    const res = await supabase.auth.api.resetPasswordForEmail({ email });
+    const error = res.error;
+    console.log(email);
+  };
+
   return {
     isSignedIn,
     signIn,
     signOut,
     signUp,
     user,
+    changePassword,
   };
 }

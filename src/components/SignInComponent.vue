@@ -26,6 +26,11 @@ const handleSignIn = async () => {
     notifyError(error.message);
   }
 };
+const redirectPassword = async () => {
+  router.push({
+    name: "changePasswordPage",
+  });
+};
 </script>
 
 <template lang="pug">
@@ -40,10 +45,12 @@ q-form.row.justify-center(@submit.prevent="handleSignIn")
         outline, rounded,
         type="submit"
         )
-q-btn.p-ma-md.justify-center(
-  label="Change Password",
-  color="primary",
-  outline, rounded,
-  type="submit"
-)
+span.row.justify-center
+  q-btn(
+    label="Password forget ?",
+    color="primary",
+    outline, rounded,
+    type="submit",
+    @click="redirectPassword"
+  )
 </template>
