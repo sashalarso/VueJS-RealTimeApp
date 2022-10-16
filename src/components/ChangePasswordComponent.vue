@@ -19,7 +19,7 @@ p.flex-center
         color="primary",
         outline, rounded,
         type="submit",
-        @click="changePassword({email})"
+        @click="changePassword(email)"
       )
     p {{email}}
 </template>

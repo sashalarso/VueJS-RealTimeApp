@@ -1,17 +1,17 @@
 <script setup>
-import { computed } from 'vue'
-import { ref } from 'vue'
+import { computed } from "vue";
+import { ref } from "vue";
 
-defineProps(['modelValue'])
-defineEmits(['update:modelValue'])
+defineProps(["modelValue"]);
+defineEmits(["update:modelValue"]);
 
-let showPassword = ref(false)
-let passwordIcon = ref('visibility_off')
+let showPassword = ref(false);
+let passwordIcon = ref("visibility_off");
 
 function toggleShowPassword() {
-  showPassword.value = !showPassword.value
-  passwordIcon.value = showPassword.value ? 'visibility' : 'visibility_off'
-  return { showPassword, passwordIcon }
+  showPassword.value = !showPassword.value;
+  passwordIcon.value = showPassword.value ? "visibility" : "visibility_off";
+  return { showPassword, passwordIcon };
 }
 </script>
 
@@ -26,4 +26,8 @@ q-input(
   )
   template(v-slot:append)
     q-icon(:name="passwordIcon", @click="toggleShowPassword")
+p(v-if="modelValue.length<6")
+  span
+    q-icon(name="warning",size="md")
+    Password minimum password length should be 6 characters
 </template>

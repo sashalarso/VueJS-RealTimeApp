@@ -1,5 +1,6 @@
 import { ref, computed } from "vue";
 import useSupabase from "boot/supabase";
+import { useRouter } from "vue-router";
 
 // user is set outside of the useAuthUser function
 // so that it will act as global state and always refer to a single user
@@ -52,11 +53,14 @@ export default function useAuthUser() {
     return user;
   };
 
-  const changePassword = async ({ email }) => {
+  const changePassworde = async ({ email }) => {
     const res = await supabase.auth.api.resetPasswordForEmail({ email });
     const error = res.error;
-    console.log(email);
   };
+
+  async function changePassword(email) {
+    const res = await supabase.auth.api.resetPasswordForEmail(email);
+  }
 
   return {
     isSignedIn,
@@ -64,6 +68,7 @@ export default function useAuthUser() {
     signOut,
     signUp,
     user,
+    changePassworde,
     changePassword,
   };
 }
