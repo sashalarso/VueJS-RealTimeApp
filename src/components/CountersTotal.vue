@@ -33,14 +33,12 @@ let alphabet = [
   "Z",
 ];
 
-let sum = 0;
-function somme(letter) {
-  alphabet.forEach((letter) => {
-    sum += state.getVal(letter);
-  });
-}
 let total = computed(
-  () => state.getVal("A") + state.getVal("B") + state.getVal("C")
+  () =>
+    state.getVal("A") +
+    state.getVal("B") +
+    state.getVal("C") +
+    state.getVal("Z")
 );
 </script>
 

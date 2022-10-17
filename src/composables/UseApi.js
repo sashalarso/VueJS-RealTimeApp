@@ -22,6 +22,7 @@ export default function useAPI(letter) {
       .delete()
       .match({ letter: letter });
     if (error) throw error;
+    getAllCounters();
   }
 
   async function addOnServer(letter) {
@@ -29,6 +30,7 @@ export default function useAPI(letter) {
       .from("counters")
       .insert({ counter: 0, letter: letter, user: user.value.id })
       .select();
+    pullShared();
 
     if (error) throw error;
   }
@@ -38,7 +40,8 @@ export default function useAPI(letter) {
     const { data, error } = await supabase
       .from("counters")
       .select("counter")
-      .match({ letter: letter });
+      .match({ letter: letter, user: user.value.id });
+
     if (error) throw error;
     if (data && data.length === 1) {
       state.setVal(letter, data[0].counter);
@@ -48,7 +51,7 @@ export default function useAPI(letter) {
   async function shareWithUser(user_id, value) {
     const { data, error } = await supabase
       .from("counters")
-      .insert({ counter: value, letter: letter, user: user_id });
+      .insert({ counter: value, letter: letter, user: user_id, share: true });
 
     if (error) throw error;
     if (data && data.length === 1) {
@@ -56,15 +59,15 @@ export default function useAPI(letter) {
     }
   }
   const pullShared = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("counters")
-      .select()
+      .select("letter, counter")
       .match({ user: user.value.id });
 
-    if (error) throw error;
     if (data && data.length === 1) {
       state.setVal(letter, data[0].counter);
     }
+
     return data;
   };
 

@@ -59,7 +59,15 @@ export const state = reactive({
   ],
 
   getVal(id) {
+    for (const letter of this.alphabet) {
+      if (id == letter) {
+        var a = eval("this.counter" + letter + ";");
+
+        return a;
+      }
+    }
     if (id === "A") {
+      console.log("test");
       return this.counterA;
     } else if (id === "B") {
       return this.counterB;
@@ -77,7 +85,11 @@ export const state = reactive({
       return this.counterA;
     } else if (id === "B") {
       this.counterB = value;
+      console.log(this.counterB);
       return this.counterB;
+    } else if (id === "C") {
+      this.counterC = value;
+      return this.counterC;
     } else {
       console.log("Attempting to set a non-existing counter");
       return 0;

@@ -3,23 +3,51 @@ import { defineComponent, ref, render, toRef } from "vue";
 import { state } from "../stores/countersState";
 import useAuthUser from "src/composables/UseAuthUser";
 import useAPI from "src/composables/UseApi";
-import { counters, letters } from "../pages/IndexPage.vue";
-import { deletecounter } from "../pages/IndexPage.vue";
+
+import useSupabase from "src/boot/supabase";
+
 defineComponent({ name: "CounterComponent" });
 
 const { isSignedIn } = useAuthUser();
+const { supabase } = useSupabase();
 
 const props = defineProps({
   id: {
     required: true,
     validator(value) {
-      return counters.includes(value) || letters.includes(value);
+      return [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z",
+      ].includes(value);
     },
   },
 });
 
-const { syncFromServer, syncToServer, deleteFromServer, shareWithUser } =
-  useAPI(props.id);
+const { syncFromServer, syncToServer, shareWithUser } = useAPI(props.id);
 const counterValue = toRef(state, "counter" + props.id);
 
 const share = ref(false);
@@ -31,15 +59,7 @@ const user_id = ref("");
 .column.justify-evenly
   .row.justify-center.items-end
     p.q-ma-md.text-h5.self-center Counter {{ id }}
-    q-btn.q-ma-xs(
-          rounded,
-          color="red-7",
-          no-caps,
-          size="0.9em",
-          icon="delete",
-          label="Delete counter",
-          @click="deletecounter(props.id),deleteFromServer(props.id)"
-          )
+
       q-dialog(v-model="delet")
         q-card
           q-card-section The counter has been deleted
