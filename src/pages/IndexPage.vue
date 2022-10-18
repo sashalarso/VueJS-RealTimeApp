@@ -5,6 +5,7 @@ import CountersTotal from "../components/CountersTotal.vue";
 import useAuthUser from "src/composables/UseAuthUser";
 import useApi from "src/composables/UseApi";
 import useSupabase from "src/boot/supabase";
+import { state } from "src/stores/countersState";
 
 defineComponent({
   name: "IndexPage",
@@ -26,7 +27,11 @@ const getAllCounters = async () => {
     .select("letter, counter")
     .match({ user: user.value.id, share: false });
   allCounters.value = data;
-  console.log(allCounters.value);
+  if (data) {
+    for (let i = 0; i < data.length; i++) {
+      state.setVal(data[i].letter, data[i].counter);
+    }
+  }
 };
 
 async function addCounters(letter) {
@@ -34,6 +39,7 @@ async function addCounters(letter) {
     .from("counters")
     .insert({ counter: 0, letter: letter, user: user.value.id })
     .select();
+
   getAllCounters();
 }
 async function deleteCounter(letter) {
@@ -43,6 +49,7 @@ async function deleteCounter(letter) {
     .match({ letter: letter });
 
   getAllCounters();
+  refreshShared();
 }
 async function pullShared() {
   const { data } = await supabase
@@ -51,6 +58,18 @@ async function pullShared() {
     .match({ user: user.value.id, share: true });
   shareCounters.value = data;
   share.value = false;
+  if (data) {
+    for (let i = 0; i < data.length; i++) {
+      state.setVal(data[i].letter, data[i].counter);
+    }
+  }
+}
+async function refreshShared() {
+  const { data } = await supabase
+    .from("counters")
+    .select("letter,counter")
+    .match({ user: user.value.id, share: true });
+  shareCounters.value = data;
 }
 async function hideShared() {
   shareCounters.value = [];
@@ -60,6 +79,8 @@ async function hideShared() {
 onMounted(() => {
   getAllCounters();
 });
+visible.value = allCounters.value.concat(shareCounters.value);
+console.log("test:" + visible.value);
 </script>
 
 <script>
@@ -75,7 +96,6 @@ export const getAllCounters = async () => {
     .select("letter, counter")
     .match({ user: user.value.id });
   allCounters.value = data;
-  console.log(allCounters.value);
 };
 </script>
 
@@ -91,15 +111,7 @@ q-page.column
       q-btn.q-ma-md(@click="add = true",icon="add",no-caps,color="deep-orange-6",rounded) Create a new Counter
       q-btn(v-if="share").q-ma-md(@click="pullShared()",color="green",icon="refresh",no-caps,rounded,text-color="white") Pull Shared Counters
       q-btn(v-if="!share").q-ma-md(@click="hideShared()",color="green",icon="remove",no-caps,rounded,text-color="white") Remove Shared Counters
-      q-btn.q-ma-md(@click="delete_ =true",color="red-7",no-caps,size="0.9em",icon="delete") Delete a Counter
-    q-dialog(v-model="delete_")
-      q-card
-        q-card-section Enter the counter's name you want to delete
-        q-card-section
-          q-input(dense,v-model="count_name",@keyup.enter="add=false")
-        q-card-actions(align="right")
-          q-btn(flat,label="cancel",v-close-popup)
-          q-btn(flat,label="delete counter",v-close-popup,@click="deleteCounter(count_name)")
+
     q-dialog(v-model="add")
       q-card
         q-card-section Enter the counter's name
@@ -110,11 +122,17 @@ q-page.column
           q-btn(flat,label="add counter",v-close-popup,@click="addCounters(count_name)")
 
     p(v-for="counterss in allCounters" )
+      span.row.justify-center.items-start
+        span.text-h4.text-purple-9.q-my-md
+        q-btn.q-ma-md(@click="deleteCounter(counterss.letter)",color="red-7",no-caps,size="0.9em",icon="delete",rounded) Delete Counter
       CounterComponent(v-bind:id="counterss.letter")
       span.row.justify-center.items-start
           span.text-h4.text-purple-9.q-my-md +
 
     p(v-for="counterss in shareCounters")
+      span.row.justify-center.items-start
+        span.text-h4.text-purple-9.q-my-md
+        q-btn.q-ma-md(@click="deleteCounter(counterss.letter)",color="red-7",no-caps,size="0.9em",icon="delete",rounded) Delete a Counter
       CounterComponent(v-bind:id="counterss.letter")
         span.row.justify-center.items-start
           span.text-h4.text-purple-9.q-my-md +

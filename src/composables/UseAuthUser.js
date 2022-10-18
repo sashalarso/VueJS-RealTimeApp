@@ -53,13 +53,11 @@ export default function useAuthUser() {
     return user;
   };
 
-  const changePassworde = async ({ email }) => {
-    const res = await supabase.auth.api.resetPasswordForEmail({ email });
-    const error = res.error;
-  };
-
-  async function changePassword(email) {
-    const res = await supabase.auth.api.resetPasswordForEmail(email);
+  async function updatePassword(token) {
+    const { user, error } = await supabase.auth.api.updateUser(token, {
+      password: "testtest",
+    });
+    return user;
   }
 
   return {
@@ -68,7 +66,7 @@ export default function useAuthUser() {
     signOut,
     signUp,
     user,
-    changePassworde,
-    changePassword,
+
+    updatePassword,
   };
 }

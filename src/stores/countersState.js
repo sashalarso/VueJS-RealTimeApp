@@ -66,33 +66,15 @@ export const state = reactive({
         return a;
       }
     }
-    if (id === "A") {
-      console.log("test");
-      return this.counterA;
-    } else if (id === "B") {
-      return this.counterB;
-    } else if (id === "C") {
-      return this.counterC;
-    } else {
-      console.log("Attempting to get a non-existing counter");
-      return 0;
-    }
   },
 
   setVal(id, value) {
-    if (id === "A") {
-      this.counterA = value;
-      return this.counterA;
-    } else if (id === "B") {
-      this.counterB = value;
-      console.log(this.counterB);
-      return this.counterB;
-    } else if (id === "C") {
-      this.counterC = value;
-      return this.counterC;
-    } else {
-      console.log("Attempting to set a non-existing counter");
-      return 0;
+    for (const letter of this.alphabet) {
+      if (id == letter) {
+        eval("this.counter" + letter + " =value;");
+        var a = eval("this.counter" + letter + ";");
+        return a;
+      }
     }
   },
 

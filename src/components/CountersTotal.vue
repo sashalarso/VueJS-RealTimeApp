@@ -38,7 +38,8 @@ let total = computed(
     state.getVal("A") +
     state.getVal("B") +
     state.getVal("C") +
-    state.getVal("Z")
+    state.getVal("Z") +
+    state.getVal("Y")
 );
 </script>
 

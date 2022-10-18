@@ -36,6 +36,11 @@ const routes = [
         path: ":catchAll(.*)*",
         component: () => import("src/pages/ErrorPageNotFound.vue"),
       },
+      {
+        name: "updatePassword",
+        path: "updatePassword",
+        component: () => import("src/pages/UpdatePasswordPage.vue"),
+      },
     ],
   },
 ];
