@@ -1,8 +1,7 @@
 <script setup>
 import { defineComponent, computed } from "vue";
 import { state } from "../stores/countersState";
-import { counters, letters } from "../pages/IndexPage.vue";
-
+import { allCounters, shareCounters } from "src/pages/IndexPage.vue";
 defineComponent({ name: "CountersTotal" });
 let alphabet = [
   "A",
@@ -32,15 +31,27 @@ let alphabet = [
   "Y",
   "Z",
 ];
-
-let total = computed(
-  () =>
-    state.getVal("A") +
-    state.getVal("B") +
-    state.getVal("C") +
-    state.getVal("Z") +
-    state.getVal("Y")
-);
+function somme() {
+  let a = 0;
+  console.log(allCounters.value[0].letter);
+  for (let i = 0; i < allCounters.value.length; i++) {
+    a += state.getVal(allCounters.value[i].letter);
+    console.log(a);
+  }
+  return a;
+}
+function share() {
+  let a = 0;
+  console.log(shareCounters.value);
+  if (shareCounters.value.length > 0) {
+    for (let i = 0; i < shareCounters.value.length; i++) {
+      a += state.getVal(shareCounters.value[i].letter);
+      console.log(a);
+    }
+  }
+  return a;
+}
+let total = computed(() => somme() + share());
 </script>
 
 <template lang="pug">

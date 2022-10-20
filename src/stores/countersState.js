@@ -1,6 +1,5 @@
 import { h, reactive } from "vue";
 import { LocalStorage } from "quasar";
-import { counters } from "../pages/IndexPage.vue";
 
 export const state = reactive({
   counterA: 0,

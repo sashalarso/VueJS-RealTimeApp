@@ -10,6 +10,13 @@ import { state } from "src/stores/countersState";
 defineComponent({
   name: "IndexPage",
 });
+
+onMounted(() => {
+  getAllCounters();
+});
+</script>
+
+<script>
 const { supabase } = useSupabase();
 const add = ref(false);
 const delete_ = ref(false);
@@ -19,8 +26,8 @@ const visible = ref([]);
 
 const { user } = useAuthUser();
 
-const allCounters = ref([]);
-const shareCounters = ref([]);
+export const allCounters = ref([]);
+export const shareCounters = ref([]);
 const getAllCounters = async () => {
   const { data } = await supabase
     .from("counters")
@@ -75,28 +82,12 @@ async function hideShared() {
   shareCounters.value = [];
   share.value = true;
 }
-
-onMounted(() => {
-  getAllCounters();
-});
-visible.value = allCounters.value.concat(shareCounters.value);
-console.log("test:" + visible.value);
-</script>
-
-<script>
-const { supabase } = useSupabase();
-const { user } = useAuthUser();
-export var counters = [];
-export var letters = [];
-const allCounters = ref([]);
-
-export const getAllCounters = async () => {
-  const { data } = await supabase
-    .from("counters")
-    .select("letter, counter")
-    .match({ user: user.value.id });
-  allCounters.value = data;
-};
+const subscript = supabase
+  .from("counters")
+  .on("INSERT", (payload) => {
+    console.log("payload" + payload);
+  })
+  .subscribe();
 </script>
 
 <template lang="pug">
