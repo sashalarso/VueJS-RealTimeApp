@@ -19,6 +19,7 @@ function toggleShowPassword() {
 q-input(
   label="Password",
   v-model:model-value="modelValue",
+  data-cy="password",
   lazy-rules,
   :rules="[val => (val && val.length > 0) || 'Password is required']",
   :type="showPassword ? 'text': 'password'"

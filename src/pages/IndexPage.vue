@@ -99,7 +99,7 @@ q-page.column
 
 
     span.row.justify-center.items-start
-      q-btn.q-ma-md(@click="add = true",icon="add",no-caps,color="deep-orange-6",rounded) Create a new Counter
+      q-btn.q-ma-md(@click="add = true",icon="add",no-caps,color="deep-orange-6",rounded,data-cy="btn-create") Create a new Counter
       q-btn(v-if="share").q-ma-md(@click="pullShared()",color="green",icon="refresh",no-caps,rounded,text-color="white") Pull Shared Counters
       q-btn(v-if="!share").q-ma-md(@click="hideShared()",color="green",icon="remove",no-caps,rounded,text-color="white") Remove Shared Counters
 
@@ -107,10 +107,10 @@ q-page.column
       q-card
         q-card-section Enter the counter's name
         q-card-section
-          q-input(dense,v-model="count_name",@keyup.enter="add=false")
+          q-input(dense,v-model="count_name",data-cy="counterId",@keyup.enter="add=false")
         q-card-actions(align="right")
           q-btn(flat,label="cancel",v-close-popup)
-          q-btn(flat,label="add counter",v-close-popup,@click="addCounters(count_name)")
+          q-btn(flat,label="add counter",v-close-popup,@click="addCounters(count_name)",data-cy="addCounter")
 
     p(v-for="counterss in allCounters" )
       span.row.justify-center.items-start

@@ -68,7 +68,7 @@ const user_id = ref("");
 
   .row.justify-center.items-end
 
-    q-btn.q-ma-md.col-1(rounded, color="cyan", @click="state.incr(id)")
+    q-btn.q-ma-md.col-1(rounded, color="cyan", @click="state.incr(id)", data-cy="btn-up")
       q-tooltip(anchor="top left").bg-teal increment
       q-icon(name="arrow_drop_up", size="md")
     q-input.col-8(
@@ -77,6 +77,7 @@ const user_id = ref("");
       error-message = "Input must be a number",
       outlined,
       dense,
+      data-cy="input",
       rounded,
       input-class=" text-h5 text-center text-cyan",
       :rules="[val => (Number.isFinite(val)) || 'error']"

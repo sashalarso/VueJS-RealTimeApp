@@ -43,7 +43,8 @@ q-form.row.justify-center(@submit.prevent="handleSignIn")
         label="Sign In",
         color="primary",
         outline, rounded,
-        type="submit"
+        type="submit",
+        data-cy="signIn"
         )
 span.row.justify-center
   q-btn(
