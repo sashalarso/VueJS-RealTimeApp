@@ -16,13 +16,13 @@ async function changePassword(email) {
 
 <template lang="pug">
 h6.flex.flex-center
-  span.text-deep-purple-7.q-mx-sm Change password
-p.flex-center
+  span.text-deep-purple-7.q-mx-sm Please enter your email to change your password
+p.fixed-center
     q-input(label="email",type="email",v-model="email")
 
 
-    q-btn.full-width(
-        label="Change Password",
+    q-btn.q-ma-md(
+        label="Submit",
         color="primary",
         outline, rounded,
         type="submit",

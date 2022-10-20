@@ -53,9 +53,9 @@ export default function useAuthUser() {
     return user;
   };
 
-  async function updatePassword(token) {
+  async function updatePassword(token, password) {
     const { user, error } = await supabase.auth.api.updateUser(token, {
-      password: "testtest",
+      password: password,
     });
     return user;
   }

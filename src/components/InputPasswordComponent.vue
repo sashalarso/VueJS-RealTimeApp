@@ -29,5 +29,5 @@ q-input(
 p(v-if="modelValue.length<6")
   span
     q-icon(name="warning",size="md")
-    Password minimum password length should be 6 characters
+    p minimum password length should be 6 characters
 </template>
