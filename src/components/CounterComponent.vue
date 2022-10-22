@@ -56,7 +56,7 @@ const user_id = ref("");
 </script>
 
 <template lang="pug">
-.column.justify-evenly
+.column.justify-evenly(:id="id")
   .row.justify-center.items-end
     p.q-ma-md.text-h5.self-center Counter {{ id }}
 
@@ -77,13 +77,13 @@ const user_id = ref("");
       error-message = "Input must be a number",
       outlined,
       dense,
-      data-cy="input",
+      data-cy = "saisie",
       rounded,
       input-class=" text-h5 text-center text-cyan",
       :rules="[val => (Number.isFinite(val)) || 'error']"
       )
       q-tooltip(anchor="bottom middle").bg-teal Enter number
-    q-btn.q-ma-md.col-1(rounded, color="cyan", @click="state.decr(id)")
+    q-btn.q-ma-md.col-1(rounded, color="cyan", @click="state.decr(id)", data-cy="btn-dn")
       q-tooltip(anchor="top right").bg-teal decrement
       q-icon(name="arrow_drop_down", size="md")
   .row.justify-center
