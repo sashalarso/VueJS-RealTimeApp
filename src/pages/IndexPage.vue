@@ -81,16 +81,16 @@ async function hideShared() {
   shareCounters.value = [];
   share.value = true;
 }
-const subscript = supabase
-  .from("counters")
-  .on("UPDATE", (payload) => {
-    state.setVal(payload.new["letter"], payload.new["counter"]);
-  })
-  .subscribe();
+
 const delete_subscript = supabase
   .from("counters")
   .on("DELETE", (payload) => {
     getAllCounters();
+    console.log("test");
+  })
+  .on("UPDATE", (payload) => {
+    state.setVal(payload.new["letter"], payload.new["counter"]);
+    state.setVal("A", 3);
   })
   .subscribe();
 </script>
