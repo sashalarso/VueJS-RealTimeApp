@@ -101,19 +101,18 @@ export const state = reactive({
     });
   },
   save(id) {
-    if (id === "A") {
-      LocalStorage.set("A_value", this.counterA);
-      console.log(LocalStorage.getItem("A_value"));
-    } else if (id === "B") {
-      LocalStorage.set("B_value", this.counterB);
-      console.log(LocalStorage.getItem("B_value"));
-    }
+    this.alphabet.forEach((i) => {
+      if (id == i) {
+        LocalStorage.set(eval(i + "_value"), eval("this.counter" + i));
+        console.log(LocalStorage.getItem("A_value"));
+      }
+    });
   },
   sync(id) {
-    if (id === "A") {
-      this.counterA = parseInt(LocalStorage.getItem("A_value"));
-    } else if (id === "B") {
-      this.counterB = parseInt(LocalStorage.getItem("B_value"));
-    }
+    this.alphabet.forEach((i) => {
+      if (id == i) {
+        this.counter = parseInt(LocalStorage.getItem(eval(i + "_value")));
+      }
+    });
   },
 });

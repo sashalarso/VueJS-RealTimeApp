@@ -4,9 +4,19 @@ describe("E2E SPEC", () => {
   beforeEach(() => {
     cy.visit("http://localhost:9000/signInPage");
 
-    cy.get('[data-cy="adress"]').type("larsonneur@et.esiea.fr");
-    cy.get('[data-cy="password"]').type("testtest");
+    cy.get('[data-cy="adress"]').type("afatchawo@et.esiea.fr");
+    cy.get('[data-cy="password"]').type("test003");
     cy.get('[data-cy="signIn"').click();
+  });
+
+  it("first create counters", () => {
+    cy.get('[data-cy="btn-create"]').click();
+    cy.get('[data-cy="counterId"]').type("A");
+    cy.get('[data-cy="addCounter"]').click();
+
+    cy.get('[data-cy="btn-create"]').click();
+    cy.get('[data-cy="counterId"]').clear().type("B");
+    cy.get('[data-cy="addCounter"]').click();
   });
 
   it("works on one counter", () => {
@@ -47,10 +57,9 @@ describe("E2E SPEC", () => {
       .should(() => {
         expect(LocalStorage.getItem("A_value")).to.eq(2);
       });
-    cy.get("#A").find('[data-cy="btn-dn"]').click();
-    cy.get("#A").find('[data-cy="btn-dn"]').click();
+    cy.get("#A").find('[data-cy="btn-reset"]').click();
     cy.get("#A").find('[data-cy="btn-sync"]').click();
-    cy.get("#A").find("[data-cy=input]").should("have.value", 2);
+    cy.get("#A").find("[data-cy=saisie]").should("have.value", 2);
   });
 
   it("responsive test for 5 random sizes with iphone4 size, the smallest size", () => {
@@ -71,5 +80,26 @@ describe("E2E SPEC", () => {
     cy.get("#A").find('[data-cy="btn-up"]').click();
     cy.get("#A").find('[data-cy="btn-reset"]').click();
     cy.get("#A").find("[data-cy=saisie]").should("have.value", 0);
+  });
+
+  it("change password for an account", () => {
+    cy.visit("http://localhost:9000/changePasswordPage");
+    cy.get('[data-cy="passwordInput"]').type("afatchawo@et.esiea.fr");
+    cy.get('[data-cy="submit"]').click();
+    cy.task("outlook:get-messages", {
+      options: {
+        from: "noreply@mail.app.supabase.io",
+        subject: "Reset Your Password",
+      },
+    });
+  });
+
+  it("check server storage", () => {
+    cy.get("#A").find('[data-cy="btn-up"]').click();
+    cy.get("#A").find('[data-cy="btn-up"]').click();
+    cy.get("#A").find('[data-cy="syncTo"]').click();
+    cy.get("#A").find('[data-cy="btn-reset"]').click();
+    cy.get("#A").find('[data-cy="syncFrom"]').click();
+    cy.get("#A").find("[data-cy=saisie]").should("have.value", 2);
   });
 });

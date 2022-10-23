@@ -18,7 +18,7 @@ async function changePassword(email) {
 h6.flex.flex-center
   span.text-deep-purple-7.q-mx-sm Please enter your email to change your password
 p.fixed-center
-    q-input(label="email",type="email",v-model="email")
+    q-input(label="email",type="email",v-model="email",data-cy="passwordInput")
 
 
     q-btn.q-ma-md(
@@ -26,6 +26,7 @@ p.fixed-center
         color="primary",
         outline, rounded,
         type="submit",
+        data-cy="submit",
         @click="changePassword(email)"
       )
 

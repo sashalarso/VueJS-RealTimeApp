@@ -96,6 +96,7 @@ const user_id = ref("");
         size="0.9em",
         icon="cloud_upload",
         label="Sync to Server",
+        data-cy="syncTo",
         @click = "syncToServer"
         )
         q-tooltip(anchor="bottom left").bg-teal update server values
@@ -108,6 +109,7 @@ const user_id = ref("");
         size="0.9em",
         icon="cloud_download",
         label="Sync from Server",
+        data-cy="syncFrom"
         @click = "syncFromServer"
         )
         q-tooltip(anchor="bottom right").bg-teal update local values from server
@@ -118,7 +120,7 @@ const user_id = ref("");
         q-tooltip(anchor="top right").bg-teal save value
       q-btn.q-ma-xs.bg-teal-13(rounded,icon="upload", color= "deep-orange-6",@click="state.sync(id)",data-cy="btn-sync",no-caps) Sync Store from Local
         q-tooltip(anchor="top right").bg-teal recup value
-      q-btn.q-ma-xs.bg-teal-13(rounded,icon="share", color= "deep-orange-6",@click="share= true",data-cy="btn-sync",no-caps) Share counter
+      q-btn.q-ma-xs.bg-teal-13(rounded,icon="share", color= "deep-orange-6",@click="share= true",data-cy="btn-share",no-caps) Share counter
       q-dialog(v-model="share")
         q-card
           q-card-section Enter the id of the user you want to share with
