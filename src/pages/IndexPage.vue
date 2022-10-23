@@ -19,10 +19,9 @@ onMounted(() => {
 <script>
 const { supabase } = useSupabase();
 const add = ref(false);
-const delete_ = ref(false);
+
 const count_name = ref("");
 const share = ref(true);
-const visible = ref([]);
 
 const { user } = useAuthUser();
 
@@ -84,8 +83,14 @@ async function hideShared() {
 }
 const subscript = supabase
   .from("counters")
-  .on("INSERT", (payload) => {
-    console.log("payload" + payload);
+  .on("UPDATE", (payload) => {
+    state.setVal(payload.new["letter"], payload.new["counter"]);
+  })
+  .subscribe();
+const delete_subscript = supabase
+  .from("counters")
+  .on("DELETE", (payload) => {
+    getAllCounters();
   })
   .subscribe();
 </script>
@@ -100,7 +105,9 @@ q-page.column
 
     span.row.justify-center.items-start
       q-btn.q-ma-md(@click="add = true",icon="add",no-caps,color="deep-orange-6",rounded,data-cy="btn-create") Create a new Counter
+        q-tooltip(anchor="top right").bg-teal create a new counter
       q-btn(v-if="share").q-ma-md(@click="pullShared()",color="green",icon="refresh",no-caps,rounded,text-color="white") Pull Shared Counters
+        q-tooltip(anchor="top right").bg-teal pull shared counters
       q-btn(v-if="!share").q-ma-md(@click="hideShared()",color="green",icon="remove",no-caps,rounded,text-color="white") Remove Shared Counters
 
     q-dialog(v-model="add")

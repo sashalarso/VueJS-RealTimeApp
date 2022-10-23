@@ -33,7 +33,7 @@ let alphabet = [
 ];
 function somme() {
   let a = 0;
-  console.log(allCounters.value[0].letter);
+
   for (let i = 0; i < allCounters.value.length; i++) {
     a += state.getVal(allCounters.value[i].letter);
     console.log(a);
