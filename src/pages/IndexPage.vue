@@ -86,11 +86,10 @@ const delete_subscript = supabase
   .from("counters")
   .on("DELETE", (payload) => {
     getAllCounters();
-    console.log("test");
+    refreshShared();
   })
   .on("UPDATE", (payload) => {
     state.setVal(payload.new["letter"], payload.new["counter"]);
-    state.setVal("A", 3);
   })
   .subscribe();
 </script>
