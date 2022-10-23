@@ -57,6 +57,7 @@ export default function useAPI(letter) {
     if (data && data.length === 1) {
       state.setVal(letter, data[0].counter);
     }
+    alert("counter shared !");
   }
   const pullShared = async () => {
     const { data } = await supabase
