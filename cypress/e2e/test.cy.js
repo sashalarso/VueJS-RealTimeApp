@@ -48,20 +48,6 @@ describe("E2E SPEC", () => {
     cy.scrollTo("top", { duration: 3000 });
   });
 
-  it("check localStorage Save", () => {
-    cy.get("#A").find('[data-cy="btn-up"]').click();
-    cy.get("#A").find('[data-cy="btn-up"]').click();
-    cy.get("#A")
-      .find('[data-cy="btn-save"]')
-      .click()
-      .should(() => {
-        expect(LocalStorage.getItem("A_value")).to.eq(2);
-      });
-    cy.get("#A").find('[data-cy="btn-reset"]').click();
-    cy.get("#A").find('[data-cy="btn-sync"]').click();
-    cy.get("#A").find("[data-cy=saisie]").should("have.value", 2);
-  });
-
   it("responsive test for 5 random sizes with iphone4 size, the smallest size", () => {
     const sizes = [
       "ipad-2",
@@ -80,18 +66,6 @@ describe("E2E SPEC", () => {
     cy.get("#A").find('[data-cy="btn-up"]').click();
     cy.get("#A").find('[data-cy="btn-reset"]').click();
     cy.get("#A").find("[data-cy=saisie]").should("have.value", 0);
-  });
-
-  it("change password for an account", () => {
-    cy.visit("http://localhost:9000/changePasswordPage");
-    cy.get('[data-cy="passwordInput"]').type("afatchawo@et.esiea.fr");
-    cy.get('[data-cy="submit"]').click();
-    cy.task("outlook:get-messages", {
-      options: {
-        from: "noreply@mail.app.supabase.io",
-        subject: "Reset Your Password",
-      },
-    });
   });
 
   it("check server storage", () => {
